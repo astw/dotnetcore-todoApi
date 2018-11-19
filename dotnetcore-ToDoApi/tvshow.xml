@@ -1,0 +1,7 @@
+<!--test-->
+<Data>
+  <host>
+    <ip>192.101.102.1</ip>
+    <hostname>test host</hostname>
+  </host>
+</Data>
