@@ -14,9 +14,9 @@ namespace dotnetcore_ToDoApi.Controllers
     [ApiController]
     public class ToDoController : ControllerBase
     {
-        private readonly TodoContext _context;
+        private readonly BloggingContext _context;
 
-        public ToDoController(TodoContext context, IConfiguration configuration)
+        public ToDoController(BloggingContext context, IConfiguration configuration)
         {
             _context = context;
 

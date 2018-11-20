@@ -30,8 +30,12 @@ namespace dotnetcore_ToDoApi
 
             services.AddSingleton<IConfiguration>(Configuration);
 
-            services.AddDbContext<TodoContext>(opt =>
-                opt.UseInMemoryDatabase("TodoList"));
+            services.AddEntityFrameworkNpgsql()
+                    .AddDbContext<BloggingContext>() 
+                    .BuildServiceProvider(); 
+
+            // services.AddDbContext<TodoContext>(opt =>
+            //     opt.UseInMemoryDatabase("TodoList")); 
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
