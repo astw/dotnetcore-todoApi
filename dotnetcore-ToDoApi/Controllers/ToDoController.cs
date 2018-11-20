@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using TodoApi.Models;
@@ -35,6 +36,8 @@ namespace dotnetcore_ToDoApi.Controllers
         [HttpGet]
         public ActionResult<List<TodoItem>> GetAll()
         {
+            var uers = _context.Users.Include(i=>i.Blogs).ToList();
+
             return _context.TodoItems.ToList();
         }
 

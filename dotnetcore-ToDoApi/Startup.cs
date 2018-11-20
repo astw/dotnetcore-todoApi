@@ -30,9 +30,11 @@ namespace dotnetcore_ToDoApi
 
             services.AddSingleton<IConfiguration>(Configuration);
 
-            services.AddEntityFrameworkNpgsql()
-                    .AddDbContext<BloggingContext>() 
-                    .BuildServiceProvider(); 
+            services.AddDbContext<BloggingContext>(option =>
+                option.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+
+            //services.AddEntityFrameworkNpgsql()
+            //        .BuildServiceProvider(); 
 
             // services.AddDbContext<TodoContext>(opt =>
             //     opt.UseInMemoryDatabase("TodoList")); 
