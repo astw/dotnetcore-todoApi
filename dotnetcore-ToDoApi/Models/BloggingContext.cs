@@ -14,6 +14,7 @@ namespace TodoApi.Models
 
         public DbSet<TodoItem> TodoItems { get; set; }
         public DbSet<TodoUser> Users { get; set; }
+        public DbSet<Blog> Blogs { get; set; }
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{

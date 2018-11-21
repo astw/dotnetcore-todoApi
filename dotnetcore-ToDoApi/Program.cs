@@ -26,7 +26,7 @@ namespace dotnetcore_ToDoApi
             CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) => 
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
 
             WebHost.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((hostingContext, config) =>
@@ -38,6 +38,12 @@ namespace dotnetcore_ToDoApi
                     config.AddXmlFile("tvshow.xml", optional: false, reloadOnChange: false);
                      //onfig.AddEFConfiguration(options => options.UseInMemoryDatabase("InMemoryDb"));
                     config.AddCommandLine(args);
+                })
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders(); 
+                    logging.AddDebug();
+                    logging.AddConsole();
                 })
                 .UseStartup<Startup>();
     }
