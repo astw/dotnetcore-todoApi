@@ -7,6 +7,8 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Events;
 
 namespace dotnetcore_ToDoApi
 {
@@ -23,7 +25,32 @@ namespace dotnetcore_ToDoApi
 
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .WriteTo.File(
+                    @"C:\logs\dotnetcore\app.log",
+                    fileSizeLimitBytes: 1_000_000,
+                    rollOnFileSizeLimit: true,
+                    shared: true,
+                    flushToDiskInterval: TimeSpan.FromSeconds(1))
+                .CreateLogger();
+
+            try
+            {
+                Log.Information("Starting web host");
+                CreateWebHostBuilder(args).Build().Run();
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated unexpectedly");  
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
@@ -43,8 +70,9 @@ namespace dotnetcore_ToDoApi
                 {
                     logging.ClearProviders(); 
                     logging.AddDebug();
-                    logging.AddConsole();
+                    logging.AddConsole(); 
                 })
+                .UseSerilog()
                 .UseStartup<Startup>();
     }
 }

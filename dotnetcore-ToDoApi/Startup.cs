@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Serilog;
 using TodoApi.Models;
 
 namespace dotnetcore_ToDoApi
@@ -28,7 +29,8 @@ namespace dotnetcore_ToDoApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-             
+            services.AddLogging(loggingBuilder =>
+                loggingBuilder.AddSerilog(dispose: true));
 
             services.AddScoped<IBlogService, BlogServices>();
             services.AddSingleton<IConfiguration>(Configuration);
@@ -57,7 +59,7 @@ namespace dotnetcore_ToDoApi
             {
                 app.UseHsts();
             }
-
+             
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
